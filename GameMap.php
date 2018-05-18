@@ -22,7 +22,7 @@ class GameMap implements GameMapInterface
 
     public function addBase(int $axisX, int $axisY, BaseInterface $base)
     {
-        $this->checkHasLocation($axisX, $axisY);
+        $this->checkPossibleAddUnit($axisX, $axisY, $base);
         $this->bases[$axisY][$axisX] = $base;
     }
 
@@ -41,6 +41,11 @@ class GameMap implements GameMapInterface
     {
         $this->checkHasLocation($axisX, $axisY);
         $unit->checkPossibleMove($this->locations[$axisY][$axisX]);
+    }
+
+    private function checkPossibleAddUnit(int $axisX, int $axisY, BaseInterface $base) {
+        $this->checkHasLocation($axisX, $axisY);
+        $base->checkPossibleMove($this->locations[$axisY][$axisX]);
     }
 
     private function checkHasLocation(int $axisX, int $axisY)

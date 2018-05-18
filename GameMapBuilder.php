@@ -118,7 +118,7 @@ class GameMapBuilder
         for ($teamIndex = 0; $teamIndex < $this->countTeams; $teamIndex++) {
             $team = $teamFactory->create();
 
-            $this->gameMap->addBase($this->randAxisX(), $this->randAxisY(), $team->getBase());
+            $this->allocationObject($team->getBase());
             $this->allocationUnits($team->getHumans());
             $this->allocationUnits($team->getPlanes());
             $this->allocationUnits($team->getTransports());
@@ -128,11 +128,11 @@ class GameMapBuilder
     private function allocationUnits($units)
     {
         foreach ($units as $unit) {
-            $this->allocationUnit($unit);
+            $this->allocationObject($unit);
         }
     }
 
-    private function allocationUnit(UnitInterface $unit)
+    private function allocationObject(MapObjectsInterface $mapObjects)
     {
         $axisXList = $this->generateUniqueArray($this->width - 1);
         $axisYList = $this->generateUniqueArray($this->height - 1);
@@ -141,7 +141,11 @@ class GameMapBuilder
         foreach ($axisXList as $axisX) {
             foreach ($axisYList as $axisY) {
                 try {
-                    $this->gameMap->addUnit($axisX, $axisY, $unit);
+                    if ($mapObjects instanceof BaseInterface) {
+                        $this->gameMap->addBase($axisX, $axisY, $mapObjects);
+                    } else {
+                        $this->gameMap->addUnit($axisX, $axisY, $mapObjects);
+                    }
 
                     return;
                 } catch (\Exception $e) {
@@ -151,16 +155,6 @@ class GameMapBuilder
         }
 
         throw new \Exception($message);
-    }
-
-    private function randAxisX(): int
-    {
-        return rand(0, $this->width - 1);
-    }
-
-    private function randAxisY(): int
-    {
-        return rand(0, $this->height - 1);
     }
 
     private function generateUniqueArray(int $length): array

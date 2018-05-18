@@ -32,7 +32,7 @@ abstract class Unit implements UnitInterface
     public function checkPossibleMove(LocationInterface $location)
     {
         if (!$this->isPossibleMove($location)) {
-            throw new \Exception('Not possible to move to this location');
+            throw new \Exception('Not possible to move Unit to this location');
         }
     }
 

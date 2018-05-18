@@ -2,7 +2,7 @@
 
 namespace Game;
 
-interface UnitInterface
+interface UnitInterface extends MapObjectsInterface
 {
     public function setAxis(int $axisX, int $axisY);
 
@@ -11,7 +11,5 @@ interface UnitInterface
 
     public function fire(UnitInterface $target): bool;
 
-    public function checkPossibleMove(LocationInterface $location);
-    public function isPossibleMove(LocationInterface $location): bool;
     public function getTeam(): TeamInterface;
 }

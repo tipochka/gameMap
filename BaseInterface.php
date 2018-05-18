@@ -2,7 +2,7 @@
 
 namespace Game;
 
-interface BaseInterface
+interface BaseInterface extends MapObjectsInterface
 {
 
 }
